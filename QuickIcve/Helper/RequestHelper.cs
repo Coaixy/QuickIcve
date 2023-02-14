@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 
 namespace QuickIcve
 {
-    public class Helper
+    public class RequestHelper
     {
         //设置 头像
         public static void setTopImg(Image tx,string url)
@@ -16,7 +16,7 @@ namespace QuickIcve
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource =
-                new Uri("https://thirdqq.qlogo.cn/g?b=sdk&k=viavTehqhp6o5IHX7YMqMdQ&kti=Y-mklQAAAAA&s=140&t=1673866616",
+                new Uri(url,
                     UriKind.Absolute);
             bitmapImage.EndInit();
             tx.Source = bitmapImage;

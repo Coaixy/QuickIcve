@@ -32,7 +32,10 @@ namespace QuickIcve
                     var data = value.Split('=');
                     if (data[0].Contains("auth"))
                     {
+                        // MessageBox.Show(data[1]);
                         SendMsg(data[1]);
+                        this.Close();
+                        
                     }
                 }
             }

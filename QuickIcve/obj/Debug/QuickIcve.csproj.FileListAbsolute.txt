@@ -21,3 +21,5 @@ E:\QuickIcve\QuickIcve\obj\Debug\QuickIcve.csproj.CopyComplete
 E:\QuickIcve\QuickIcve\obj\Debug\Login.g.cs
 E:\QuickIcve\QuickIcve\obj\Debug\Login.baml
 E:\QuickIcve\QuickIcve\bin\Debug\Microsoft.mshtml.dll
+E:\QuickIcve\QuickIcve\bin\Debug\Newtonsoft.Json.dll
+E:\QuickIcve\QuickIcve\bin\Debug\Newtonsoft.Json.xml

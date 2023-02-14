@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json.Linq;
 
 namespace QuickIcve
 {
@@ -15,17 +16,23 @@ namespace QuickIcve
         public MainWindow()
         {
             InitializeComponent();
+            Login l = new Login();
+            l.SendMsg = recevieInfo;
+            l.Show();
         }
 
         public void recevieInfo(string data)
         {
-            this.cookie = data;
+            cookie ="auth="+data;
+            initInfo();
         }
-        private void initInfo(object sender, RoutedEventArgs e)
+        private void initInfo()
         {
-            Login l = new Login();
-            l.SendMsg = recevieInfo;
-            l.Show();
+            var indexInfo = InfoHelper.indexInfo(cookie);
+            var label = (Label)FindName("name");
+            var tx = (Image)FindName("tx");
+            if (label != null) label.Content = indexInfo["disPlayName"]?.ToString();
+            RequestHelper.setTopImg(tx,indexInfo["avator"]?.ToString());
         }
     }
 }

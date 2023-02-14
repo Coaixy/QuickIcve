@@ -14,7 +14,6 @@
                 <StackPanel>
                     <Image Source="" Name="tx" Margin="0,10" Width="150" Height="150"></Image>
                     <Label Content="未获取" Name="name" Margin="10" Style="{DynamicResource LabelPrimary}"></Label>
-                    <Button Style="{StaticResource ButtonPrimary}" Content="获取数据" Click="initInfo"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="当前状态">
