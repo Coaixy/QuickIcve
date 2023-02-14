@@ -18,3 +18,6 @@ E:\QuickIcve\QuickIcve\bin\Debug\HandyControl.dll
 E:\QuickIcve\QuickIcve\bin\Debug\HandyControl.xml
 E:\QuickIcve\QuickIcve\obj\Debug\App.baml
 E:\QuickIcve\QuickIcve\obj\Debug\QuickIcve.csproj.CopyComplete
+E:\QuickIcve\QuickIcve\obj\Debug\Login.g.cs
+E:\QuickIcve\QuickIcve\obj\Debug\Login.baml
+E:\QuickIcve\QuickIcve\bin\Debug\Microsoft.mshtml.dll

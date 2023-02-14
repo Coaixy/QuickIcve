@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -10,21 +11,21 @@ namespace QuickIcve
     /// </summary>
     public partial class MainWindow
     {
+        private string cookie = "";
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        public void setImg(string url)
+        public void recevieInfo(string data)
         {
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource =
-                new Uri("https://thirdqq.qlogo.cn/g?b=sdk&k=viavTehqhp6o5IHX7YMqMdQ&kti=Y-mklQAAAAA&s=140&t=1673866616",
-                    UriKind.Absolute);
-            bitmapImage.EndInit();
-            Image tx = (Image)FindName("tx");
-            tx.Source = bitmapImage;
+            this.cookie = data;
+        }
+        private void initInfo(object sender, RoutedEventArgs e)
+        {
+            Login l = new Login();
+            l.SendMessage = recevieInfo;
+            l.Show();
         }
     }
 }

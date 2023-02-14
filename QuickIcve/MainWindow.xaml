@@ -13,8 +13,8 @@
             <TabItem Header="个人信息">
                 <StackPanel>
                     <Image Source="" Name="tx" Margin="0,10" Width="150" Height="150"></Image>
-                    <Label Grid.Row="0" Content="未获取" Name="name" Margin="10" Style="{DynamicResource LabelPrimary}"></Label>
-                    <Label Grid.Row="0" Content="未获取" Name="number" Margin="10" Style="{DynamicResource LabelPrimary}"></Label>
+                    <Label Content="未获取" Name="name" Margin="10" Style="{DynamicResource LabelPrimary}"></Label>
+                    <Button Style="{StaticResource ButtonPrimary}" Content="获取数据" Click="initInfo"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="当前状态">
