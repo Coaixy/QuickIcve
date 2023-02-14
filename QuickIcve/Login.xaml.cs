@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,31 +14,57 @@ namespace QuickIcve
     {
         public delegate void sendMessage(string data);
 
-        public sendMessage SendMessage;
+        public sendMessage SendMsg;
         public Login()
         {
             InitializeComponent();
-            // test();
+
         }
-
-        private void inject()
-        {
-            var view = (WebBrowser)FindName("view");
-            var a = view.Document as mshtml.HTMLDocument;
-            var head = a.getElementsByTagName("head").Cast<HTMLHeadElement>().First();
-            var script = (IHTMLScriptElement)a.createElement("script");
-            head.appendChild((IHTMLDOMNode)script);
-        }
-
-
         private void View_OnLoadCompleted(object sender, NavigationEventArgs e)
         {
             var view = (WebBrowser)FindName("view");
             if (view.Source.ToString() == "https://www.zjy2.icve.com.cn/student/studio/studio.html")
             {
-                inject();
+                var cookie = GetCookie("https://www.zjy2.icve.com.cn/student/studio/studio.html");
+                var values = cookie.Split(';');
+                foreach (var value in values)
+                {
+                    var data = value.Split('=');
+                    if (data[0].Contains("auth"))
+                    {
+                        SendMsg(data[1]);
+                    }
+                }
             }
         }
         
+        //用于获取ReadOnly的cookie
+        private const int INTERNET_COOKIE_HTTPONLY = 0x00002000;
+        [DllImport("wininet.dll", SetLastError = true)]
+        private static extern bool InternetGetCookieEx(
+            string url,
+            string cookieName,
+            StringBuilder cookieData,
+            ref int size,
+            int flags,
+            IntPtr pReserved);
+        public static string GetCookie(string url)
+        {
+            int size = 512;
+            StringBuilder sb = new StringBuilder(size);
+            if (!InternetGetCookieEx(url, null, sb, ref size, INTERNET_COOKIE_HTTPONLY, IntPtr.Zero))
+            {
+                if (size < 0)
+                {
+                    return null;
+                }
+                sb = new StringBuilder(size);
+                if (!InternetGetCookieEx(url, null, sb, ref size, INTERNET_COOKIE_HTTPONLY, IntPtr.Zero))
+                {
+                    return null;
+                }
+            }
+            return sb.ToString();
+        }
     }
 }

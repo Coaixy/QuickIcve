@@ -65,7 +65,8 @@
             <DependentUpon>App.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Include="Helper.cs" />
+        <Compile Include="Helper\Helper.cs" />
+        <Compile Include="Helper\InfoHelper.cs" />
         <Compile Include="Login.xaml.cs">
           <DependentUpon>Login.xaml</DependentUpon>
         </Compile>

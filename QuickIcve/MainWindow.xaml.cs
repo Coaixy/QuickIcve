@@ -24,7 +24,7 @@ namespace QuickIcve
         private void initInfo(object sender, RoutedEventArgs e)
         {
             Login l = new Login();
-            l.SendMessage = recevieInfo;
+            l.SendMsg = recevieInfo;
             l.Show();
         }
     }

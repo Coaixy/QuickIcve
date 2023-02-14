@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="Login" Height="450" Width="800">
     <Grid>
-        <WebBrowser  LoadCompleted="View_OnLoadCompleted" Name="view" Source="https://www.zjy2.icve.com.cn/portal/login.html"></WebBrowser>
+        <WebBrowser LoadCompleted="View_OnLoadCompleted" Source="https://www.zjy2.icve.com.cn/portal/login.html" Name="view" ></WebBrowser>
     </Grid>
 </Window>
