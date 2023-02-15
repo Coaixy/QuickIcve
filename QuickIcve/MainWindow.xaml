@@ -20,6 +20,16 @@
                 
             </TabItem>
             <TabItem Header="课程信息">
+                <ListView MouseDoubleClick="listDoubleClick" Name="courseListView" Margin="20">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="150" Header="ID" DisplayMemberBinding="{Binding id}"/>
+                            <GridViewColumn Width="130" Header="课程名" DisplayMemberBinding="{Binding name}"/>
+                            <GridViewColumn Width="80" Header="教师名" DisplayMemberBinding="{Binding tName}"/>
+                            <GridViewColumn Width="80" Header="进度" DisplayMemberBinding="{Binding percent}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </TabItem>
         </TabControl>
     </Grid>
