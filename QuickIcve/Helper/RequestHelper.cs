@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -22,39 +23,47 @@ namespace QuickIcve
             tx.Source = bitmapImage;
         }
 
-        public static string Post(string url, Dictionary<string, string> dic)
+        public static string Post(string url, Dictionary<string, string> dic,string test_data = "",bool text = false)
         {
             string result = "";
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.Method = "POST";
+            req.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
             req.UserAgent =
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.41";
             StringBuilder sb = new StringBuilder();
             int i = 0;
-            foreach (var item in dic)
+            if (text == false)
             {
-                if (item.Key == "cookie")
+                foreach (var item in dic)
                 {
-                    req.Headers.Add("Cookie",item.Value);
-                }
-                else
-                {
-                    if (i!=0)
+                    if (item.Key == "cookie")
                     {
-                        sb.Append("&");
+                        req.Headers.Add("Cookie",item.Value);
                     }
-                    sb.AppendFormat("{0}={1}", item.Key, item.Value);
-                    i++;
+                    else
+                    {
+                        if (i!=0)
+                        {
+                            sb.Append("&");
+                        }
+                        sb.AppendFormat("{0}={1}", item.Key, item.Value);
+                        i++;
+                    }
                 }
             }
-
+            else
+            {
+                sb.Append(test_data);
+            }
+            
+            // MessageBox.Show(sb.ToString());
             byte[] data = Encoding.UTF8.GetBytes(sb.ToString());
             req.ContentLength = data.Length;
-            using (Stream reqStream = req.GetRequestStream())
-            {
-                reqStream.Write(data,0,data.Length);
-                reqStream.Close();
-            }
+            Stream reqStream = req.GetRequestStream();
+            reqStream.Write(data,0,data.Length);
+            reqStream.Flush();
+            reqStream.Close();
 
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
             Stream stream = resp.GetResponseStream();

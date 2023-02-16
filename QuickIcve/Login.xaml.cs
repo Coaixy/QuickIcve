@@ -26,18 +26,8 @@ namespace QuickIcve
             if (view.Source.ToString() == "https://www.zjy2.icve.com.cn/student/studio/studio.html")
             {
                 var cookie = GetCookie("https://www.zjy2.icve.com.cn/student/studio/studio.html");
-                var values = cookie.Split(';');
-                foreach (var value in values)
-                {
-                    var data = value.Split('=');
-                    if (data[0].Contains("auth"))
-                    {
-                        // MessageBox.Show(data[1]);
-                        SendMsg(data[1]);
-                        this.Close();
-                        
-                    }
-                }
+                SendMsg(cookie);
+                Close();
             }
         }
         
