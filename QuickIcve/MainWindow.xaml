@@ -16,7 +16,19 @@
                     <Label Content="未获取" Name="name" Margin="10" Style="{DynamicResource LabelPrimary}"></Label>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="当前状态">
+            <TabItem Header="课程列表">
+                <ListView MouseDoubleClick="listDoubleClick" Name="courseListView" Margin="20">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="150" Header="ID" DisplayMemberBinding="{Binding courseOpenId}"/>
+                            <GridViewColumn Width="130" Header="课程名" DisplayMemberBinding="{Binding name}"/>
+                            <GridViewColumn Width="80" Header="教师名" DisplayMemberBinding="{Binding tName}"/>
+                            <GridViewColumn Width="80" Header="进度" DisplayMemberBinding="{Binding percent}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="当前课程">
                 <StackPanel>
                     <ListView Name="studyListView" Height="300" ItemsSource="" Margin="20">
                         <ListView.View>
@@ -32,17 +44,8 @@
                     <Button  Click="start" Style="{StaticResource ButtonPrimary}" Content="开始刷课"/>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="课程信息">
-                <ListView MouseDoubleClick="listDoubleClick" Name="courseListView" Margin="20">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="150" Header="ID" DisplayMemberBinding="{Binding courseOpenId}"/>
-                            <GridViewColumn Width="130" Header="课程名" DisplayMemberBinding="{Binding name}"/>
-                            <GridViewColumn Width="80" Header="教师名" DisplayMemberBinding="{Binding tName}"/>
-                            <GridViewColumn Width="80" Header="进度" DisplayMemberBinding="{Binding percent}"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+            <TabItem Header="刷课信息">
+                
             </TabItem>
         </TabControl>
     </Grid>

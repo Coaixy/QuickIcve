@@ -61,7 +61,7 @@ namespace QuickIcve
             }
             else
             {
-                TabControl.SelectedIndex = 1;
+                TabControl.SelectedIndex = 2;
                 // MessageBox.Show(selectedItem.courseOpenId, selectedItem.openClassId);
                 // MessageBox.Show(cookie);
                 var studyList = InfoHelper.studyList(cookie, selectedItem.courseOpenId, selectedItem.openClassId)?["progress"]?["moduleList"];
