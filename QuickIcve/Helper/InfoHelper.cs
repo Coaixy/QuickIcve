@@ -36,5 +36,26 @@ namespace QuickIcve
             var jsonData = JObject.Parse(text);
             return jsonData;
         }
+        public static JObject topicList(string cookie, string courseOpenId, string moduleId)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data.Add("cookie",cookie);
+            data.Add("courseOpenId",courseOpenId);
+            data.Add("moduleId",moduleId);
+            var text = RequestHelper.Post("https://zjy2.icve.com.cn/api/study/process/getTopicByModuleId", data);
+            var jsonData = JObject.Parse(text);
+            return jsonData;
+        }
+        public static JObject cellList(string cookie, string courseOpenId, string openClassId,string topicId)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data.Add("cookie",cookie);
+            data.Add("courseOpenId",courseOpenId);
+            data.Add("openClassId",openClassId);
+            data.Add("topicId",topicId);
+            var text = RequestHelper.Post("https://zjy2.icve.com.cn/api/study/process/getCellByTopicId", data);
+            var jsonData = JObject.Parse(text);
+            return jsonData;
+        }
     }
 }

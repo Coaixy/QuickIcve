@@ -45,7 +45,20 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="刷课信息">
-                
+                    <StackPanel Margin="20">
+                        <ListView Name="cellListView" Height="250" ItemsSource="" Margin="20">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="300" Header="节点名" DisplayMemberBinding="{Binding cellName}"/>
+                                    <GridViewColumn Width="80" Header="Id" DisplayMemberBinding="{Binding Id}"/>
+                                    <GridViewColumn Width="80" Header="类型" DisplayMemberBinding="{Binding categoryName}"/>
+                                    <GridViewColumn Width="80" Header="状态" DisplayMemberBinding="{Binding status}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <TextBlock Text="进度信息"></TextBlock>
+                        <ProgressBar Style="{DynamicResource ProgressBarInfo}" Value="40"></ProgressBar>
+                    </StackPanel>
             </TabItem>
         </TabControl>
     </Grid>

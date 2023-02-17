@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -72,6 +74,7 @@ namespace QuickIcve
                     {
                         var temp = new StudyInfo()
                         {
+                            courseOpenId = selectedItem.courseOpenId,
                             moduleId = studyItem["id"]?.ToString(),
                             name  = studyItem["name"]?.ToString(),
                             openClassId = selectedItem.openClassId,
@@ -87,6 +90,7 @@ namespace QuickIcve
 
         public class StudyInfo
         {
+            public string courseOpenId { get; set; }
             public string moduleId { get; set; }
             public string openClassId { get; set; }
             public string name { get; set; }
@@ -101,10 +105,46 @@ namespace QuickIcve
             public string tName { get; set; }
             public int percent { get; set; }
         }
-
+        public class cellInfo
+        {
+            public string cellId { get; set; }
+            public string cellLogId { get; set; }
+            public string audioVideoLong { get; set; }
+            public string stuStudyNewlyTime { get; set; }
+            public string stuStudyNewlyPicCount { get; set; }
+            public string pageCount { get; set; }
+            public string guIdToken { get; set; }
+            public string categoryName { get; set; }
+            public string cellName { get; set; }
+        }
         private void start(object sender, RoutedEventArgs e)
         {
-            
+            var studyInfos = (List<StudyInfo>)studyListView.ItemsSource;
+            Thread study = new Thread(() =>
+            {
+                //线程代码
+                foreach (var studyInfo in studyInfos)
+                {
+                    var topicList = InfoHelper.topicList(cookie, studyInfo.courseOpenId, studyInfo.moduleId);
+                    foreach (var topicInfo in topicList["topicList"])
+                    {
+                        var cellList = InfoHelper.cellList(cookie, studyInfo.courseOpenId, studyInfo.openClassId, topicInfo["id"].ToString());
+                        foreach (var cellInfo in cellList["cellList"])
+                        {
+                            //存在子节点
+                            if (cellInfo.ToString().Contains("childNodeList"))
+                            {
+                                
+                            }
+                            else
+                            {
+                                
+                            }
+                        }
+                    }
+                }
+            });
+            study.Start();
         }
     }
 }
