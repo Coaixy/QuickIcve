@@ -57,5 +57,18 @@ namespace QuickIcve
             var jsonData = JObject.Parse(text);
             return jsonData;
         }
+        public static JObject cellInfo(string cookie, string courseOpenId, string openClassId,string cellId,string moduleId)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data.Add("cookie",cookie);
+            data.Add("courseOpenId",courseOpenId);
+            data.Add("openClassId",openClassId);
+            data.Add("cellId",cellId);
+            data.Add("moduleId",moduleId);
+            data.Add("flag","s");
+            var text = RequestHelper.Post("https://zjy2.icve.com.cn/api/common/Directory/viewDirectory", data);
+            var jsonData = JObject.Parse(text);
+            return jsonData;
+        }
     }
 }

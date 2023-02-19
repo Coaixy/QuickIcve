@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -23,7 +24,7 @@ namespace QuickIcve
             Login l = new Login();
             l.SendMsg = recevieInfo;
             l.Show();
-
+            
         }
 
         public void recevieInfo(string data)
@@ -87,7 +88,70 @@ namespace QuickIcve
                 studyListView.ItemsSource = items;
             }
         }
+        
+        public void start(object sender, RoutedEventArgs e)
+        {
+            var studyInfos = (List<StudyInfo>)studyListView.ItemsSource;
+            ObservableCollection<cellInfo> cellInfos = new ObservableCollection<cellInfo>();
+            cellListView.ItemsSource = cellInfos;
+            Thread study = new Thread(() =>
+            {
+                //线程代码
+                
+                //获取课程信息
+                foreach (var studyInfo in studyInfos)
+                {
+                    var topicList = InfoHelper.topicList(cookie, studyInfo.courseOpenId, studyInfo.moduleId);
+                    foreach (var topicInfo in topicList["topicList"])
+                    {
+                        var cellList = InfoHelper.cellList(cookie, studyInfo.courseOpenId, studyInfo.openClassId, topicInfo["id"].ToString());
+                        foreach (var cellInfo in cellList["cellList"])
+                        {
+                            //存在子节点
+                            if (cellInfo.ToString().Contains("childNodeList"))
+                            {
+                                foreach (var child in cellInfo["childNodeList"])
+                                {
 
+                                    {
+                                        var info = InfoHelper.cellInfo(cookie, studyInfo.courseOpenId,
+                                            studyInfo.openClassId, child["Id"].ToString(), studyInfo.moduleId);
+
+                                        var temp = new cellInfo()
+                                        {
+                                            cellId = info["cellId"].ToString(),
+                                            cellLogId = info["cellLogId"].ToString(),
+                                            cellName = info["cellName"].ToString(),
+                                            guIdToken = info["guIdToken"].ToString(),
+                                            pageCount = info["pageCount"].ToString(),
+                                            audioVideoLong = info["audioVideoLong"].ToString(),
+                                            stuStudyNewlyPicCount = info["stuStudyNewlyPicCount"].ToString(),
+                                            stuStudyNewlyTime = info["stuStudyNewlyTime"].ToString(),
+                                            categoryName = info["categoryName"].ToString(),
+                                            status = "0" //未开始
+                                        };
+                                        if (temp.stuStudyNewlyPicCount != temp.pageCount ||
+                                            temp.stuStudyNewlyTime != temp.audioVideoLong)
+                                        {
+                                            Application.Current.Dispatcher.Invoke((Action)(() =>
+                                            {
+                                                cellInfos.Add(temp);
+                                            }));
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                
+                            }
+                        }
+                        // MessageBox.Show(cellInfos.Count.ToString());
+                    }
+                }
+            });
+            study.Start();
+        }
         public class StudyInfo
         {
             public string courseOpenId { get; set; }
@@ -116,35 +180,7 @@ namespace QuickIcve
             public string guIdToken { get; set; }
             public string categoryName { get; set; }
             public string cellName { get; set; }
-        }
-        private void start(object sender, RoutedEventArgs e)
-        {
-            var studyInfos = (List<StudyInfo>)studyListView.ItemsSource;
-            Thread study = new Thread(() =>
-            {
-                //线程代码
-                foreach (var studyInfo in studyInfos)
-                {
-                    var topicList = InfoHelper.topicList(cookie, studyInfo.courseOpenId, studyInfo.moduleId);
-                    foreach (var topicInfo in topicList["topicList"])
-                    {
-                        var cellList = InfoHelper.cellList(cookie, studyInfo.courseOpenId, studyInfo.openClassId, topicInfo["id"].ToString());
-                        foreach (var cellInfo in cellList["cellList"])
-                        {
-                            //存在子节点
-                            if (cellInfo.ToString().Contains("childNodeList"))
-                            {
-                                
-                            }
-                            else
-                            {
-                                
-                            }
-                        }
-                    }
-                }
-            });
-            study.Start();
+            public string status { get; set; }
         }
     }
 }
