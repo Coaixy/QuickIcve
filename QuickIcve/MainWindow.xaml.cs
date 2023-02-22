@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -89,9 +90,11 @@ namespace QuickIcve
         
         public void start(object sender, RoutedEventArgs e)
         {
+            TabControl.SelectedIndex = 2;
             var studyInfos = StudyViewItems;
-            Thread study = new Thread(() =>
+            Task study = new Task(() =>
             {
+                //获取所有Cell的信息
                 foreach (var studyInfo in studyInfos)
                 {
                     var topicList = InfoHelper.topicList(cookie, studyInfo.courseOpenId, studyInfo.moduleId);
@@ -101,7 +104,7 @@ namespace QuickIcve
                         foreach (var cellInfo in cellList["cellList"])
                         {
                             //存在子节点
-                            if (!cellInfo.ToString().Contains("childNodeList[]"))
+                            if (cellInfo["childNodeList"].Any())
                             {
                                 foreach (var child in cellInfo["childNodeList"])
                                 {
@@ -117,6 +120,11 @@ namespace QuickIcve
                         }
                     }
                 }
+                //刷课
+                foreach (var cellInfo in CellViewItems)
+                {
+                    
+                }
                 
             });
             study.Start();
@@ -125,9 +133,17 @@ namespace QuickIcve
         private void AddCellItems(string courseOpenId,string openClassId,string cellId,string moduleId)
         {
             {
+
                 var info = InfoHelper.cellInfo(cookie, courseOpenId,
                     openClassId, cellId, moduleId);
-
+                if (info["code"].ToString() is "-100")
+                { 
+                    InfoHelper.changeCourse(cookie,info["currCourseOpenId"]?.ToString(),info["currOpenClassId"]?.ToString(),
+                        info["curCellId"]?.ToString(),info["currModuleId"]?.ToString(),info["currCellName"]?.ToString());
+                    Thread.Sleep(300);
+                    info = InfoHelper.cellInfo(cookie, courseOpenId,
+                        openClassId, cellId, moduleId);
+                }
                 var temp = new cellInfo()
                 {
                     cellId = info["cellId"].ToString(),
@@ -144,10 +160,10 @@ namespace QuickIcve
                 if (temp.stuStudyNewlyPicCount != temp.pageCount ||
                     temp.stuStudyNewlyTime != temp.audioVideoLong)
                 {
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    Application.Current.Dispatcher.Invoke(() =>
                     {
                         CellViewItems.Add(temp);
-                    }));
+                    });
                 }
             }
         }

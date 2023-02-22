@@ -8,6 +8,10 @@ namespace QuickIcve
 {
     public class InfoHelper
     {
+        public void Log(string text)
+        {
+            
+        }
         public static JObject indexInfo(string cookie)
         {
             Dictionary<string, string> data = new Dictionary<string, string> { { "cookie", cookie } };
