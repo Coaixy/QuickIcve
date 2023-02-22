@@ -101,47 +101,55 @@ namespace QuickIcve
                         foreach (var cellInfo in cellList["cellList"])
                         {
                             //存在子节点
-                            if (cellInfo.ToString().Contains("childNodeList"))
+                            if (!cellInfo.ToString().Contains("childNodeList[]"))
                             {
                                 foreach (var child in cellInfo["childNodeList"])
                                 {
-                                    {
-                                        var info = InfoHelper.cellInfo(cookie, studyInfo.courseOpenId,
-                                            studyInfo.openClassId, child["Id"].ToString(), studyInfo.moduleId);
-
-                                        var temp = new cellInfo()
-                                        {
-                                            cellId = info["cellId"].ToString(),
-                                            cellLogId = info["cellLogId"].ToString(),
-                                            cellName = info["cellName"].ToString(),
-                                            guIdToken = info["guIdToken"].ToString(),
-                                            pageCount = info["pageCount"].ToString(),
-                                            audioVideoLong = info["audioVideoLong"].ToString(),
-                                            stuStudyNewlyPicCount = info["stuStudyNewlyPicCount"].ToString(),
-                                            stuStudyNewlyTime = info["stuStudyNewlyTime"].ToString(),
-                                            categoryName = info["categoryName"].ToString(),
-                                            status = "No" //未开始
-                                        };
-                                        if (temp.stuStudyNewlyPicCount != temp.pageCount ||
-                                            temp.stuStudyNewlyTime != temp.audioVideoLong)
-                                        {
-                                            Application.Current.Dispatcher.Invoke((Action)(() =>
-                                            {
-                                                CellViewItems.Add(temp);
-                                            }));
-                                        }
-                                    }
+                                    AddCellItems(studyInfo.courseOpenId,
+                                        studyInfo.openClassId, cellInfo["Id"]?.ToString(), studyInfo.moduleId);
                                 }
-                            }
+                            }//不存在子节点
                             else
                             {
-                                
+                                AddCellItems(studyInfo.courseOpenId,
+                                    studyInfo.openClassId, cellInfo["Id"]?.ToString(), studyInfo.moduleId);
                             }
                         }
                     }
                 }
+                
             });
             study.Start();
+        }
+
+        private void AddCellItems(string courseOpenId,string openClassId,string cellId,string moduleId)
+        {
+            {
+                var info = InfoHelper.cellInfo(cookie, courseOpenId,
+                    openClassId, cellId, moduleId);
+
+                var temp = new cellInfo()
+                {
+                    cellId = info["cellId"].ToString(),
+                    cellLogId = info["cellLogId"].ToString(),
+                    cellName = info["cellName"].ToString(),
+                    guIdToken = info["guIdToken"].ToString(),
+                    pageCount = info["pageCount"].ToString(),
+                    audioVideoLong = info["audioVideoLong"].ToString(),
+                    stuStudyNewlyPicCount = info["stuStudyNewlyPicCount"].ToString(),
+                    stuStudyNewlyTime = info["stuStudyNewlyTime"].ToString(),
+                    categoryName = info["categoryName"].ToString(),
+                    status = "No" //未开始
+                };
+                if (temp.stuStudyNewlyPicCount != temp.pageCount ||
+                    temp.stuStudyNewlyTime != temp.audioVideoLong)
+                {
+                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    {
+                        CellViewItems.Add(temp);
+                    }));
+                }
+            }
         }
         public class StudyInfo
         {

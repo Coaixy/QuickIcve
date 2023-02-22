@@ -50,6 +50,7 @@
                         </ListView>
                         <TextBlock Text="进度信息"></TextBlock>
                         <ProgressBar Style="{DynamicResource ProgressBarInfo}" Value="40"></ProgressBar>
+                        <Label Content="" Name="nowCell" Margin="10" Style="{DynamicResource LabelPrimary}"></Label>
                     </StackPanel>
             </TabItem>
         </TabControl>
