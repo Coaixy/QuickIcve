@@ -17,10 +17,17 @@ namespace QuickIcve
     /// </summary>
     public partial class MainWindow
     {
+        ObservableCollection<CourseInfo> CourseViewItems = new ObservableCollection<CourseInfo>();
+        ObservableCollection<StudyInfo> StudyViewItems = new ObservableCollection<StudyInfo>();
+        ObservableCollection<cellInfo> CellViewItems = new ObservableCollection<cellInfo>();
         private string cookie = "";
         public MainWindow()
         {
             InitializeComponent();
+            courseListView.ItemsSource = CourseViewItems;
+            studyListView.ItemsSource = StudyViewItems;
+            cellListView.ItemsSource = CellViewItems;
+            
             Login l = new Login();
             l.SendMsg = recevieInfo;
             l.Show();
@@ -30,16 +37,12 @@ namespace QuickIcve
         public void recevieInfo(string data)
         {
             cookie = data;
-            initInfo();
+            initCourse();
         }
-        private void initInfo()
+        private void initCourse()
         {
             var indexInfo = InfoHelper.indexInfo(cookie);
-            if (name != null) name.Content = indexInfo["disPlayName"]?.ToString();
-            RequestHelper.setTopImg(tx,indexInfo["avator"]?.ToString());
-            
             var courseList = InfoHelper.courseList(cookie)["courseList"];
-            List<CourseInfo> items = new List<CourseInfo>();
             foreach (var course in courseList)
             {
                 var temp = new CourseInfo()
@@ -50,9 +53,8 @@ namespace QuickIcve
                     tName = course["assistTeacherName"]?.ToString(),
                     percent = Convert.ToInt32(course["process"])
                 };
-                items.Add(temp);
+                CourseViewItems.Add(temp);
             }
-            courseListView.ItemsSource = items;
         }
 
         private void listDoubleClick(object sender, MouseButtonEventArgs e)
@@ -64,11 +66,8 @@ namespace QuickIcve
             }
             else
             {
-                TabControl.SelectedIndex = 2;
-                // MessageBox.Show(selectedItem.courseOpenId, selectedItem.openClassId);
-                // MessageBox.Show(cookie);
+                TabControl.SelectedIndex = 1;
                 var studyList = InfoHelper.studyList(cookie, selectedItem.courseOpenId, selectedItem.openClassId)?["progress"]?["moduleList"];
-                List<StudyInfo> items = new List<StudyInfo>();
                 foreach (var studyItem in studyList)
                 {
                     if (Convert.ToInt32(studyItem["percent"]) < 100)
@@ -82,23 +81,17 @@ namespace QuickIcve
                             percent = Convert.ToInt32(studyItem["percent"]),
                             status = "未开始"
                         };
-                        items.Add(temp);
+                        StudyViewItems.Add(temp);
                     }
                 }
-                studyListView.ItemsSource = items;
             }
         }
         
         public void start(object sender, RoutedEventArgs e)
         {
-            var studyInfos = (List<StudyInfo>)studyListView.ItemsSource;
-            ObservableCollection<cellInfo> cellInfos = new ObservableCollection<cellInfo>();
-            cellListView.ItemsSource = cellInfos;
+            var studyInfos = StudyViewItems;
             Thread study = new Thread(() =>
             {
-                //线程代码
-                
-                //获取课程信息
                 foreach (var studyInfo in studyInfos)
                 {
                     var topicList = InfoHelper.topicList(cookie, studyInfo.courseOpenId, studyInfo.moduleId);
@@ -112,7 +105,6 @@ namespace QuickIcve
                             {
                                 foreach (var child in cellInfo["childNodeList"])
                                 {
-
                                     {
                                         var info = InfoHelper.cellInfo(cookie, studyInfo.courseOpenId,
                                             studyInfo.openClassId, child["Id"].ToString(), studyInfo.moduleId);
@@ -128,14 +120,14 @@ namespace QuickIcve
                                             stuStudyNewlyPicCount = info["stuStudyNewlyPicCount"].ToString(),
                                             stuStudyNewlyTime = info["stuStudyNewlyTime"].ToString(),
                                             categoryName = info["categoryName"].ToString(),
-                                            status = "0" //未开始
+                                            status = "No" //未开始
                                         };
                                         if (temp.stuStudyNewlyPicCount != temp.pageCount ||
                                             temp.stuStudyNewlyTime != temp.audioVideoLong)
                                         {
                                             Application.Current.Dispatcher.Invoke((Action)(() =>
                                             {
-                                                cellInfos.Add(temp);
+                                                CellViewItems.Add(temp);
                                             }));
                                         }
                                     }
@@ -146,7 +138,6 @@ namespace QuickIcve
                                 
                             }
                         }
-                        // MessageBox.Show(cellInfos.Count.ToString());
                     }
                 }
             });

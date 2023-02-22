@@ -30,8 +30,6 @@ namespace QuickIcve
                 Close();
             }
         }
-        
-        //用于获取ReadOnly的cookie
         private const int INTERNET_COOKIE_HTTPONLY = 0x00002000;
         [DllImport("wininet.dll", SetLastError = true)]
         private static extern bool InternetGetCookieEx(

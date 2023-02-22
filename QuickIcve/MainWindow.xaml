@@ -10,19 +10,13 @@
     <Grid>
         
         <TabControl Name="TabControl" Margin="10" Style="{StaticResource TabControlInLine}">
-            <TabItem Header="个人信息">
-                <StackPanel>
-                    <Image Source="" Name="tx" Margin="0,10" Width="300" Height="300"></Image>
-                    <Label Content="未获取" Name="name" Margin="10" Style="{DynamicResource LabelPrimary}"></Label>
-                </StackPanel>
-            </TabItem>
             <TabItem Header="课程列表">
                 <ListView MouseDoubleClick="listDoubleClick" Name="courseListView" Margin="20">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="150" Header="ID" DisplayMemberBinding="{Binding courseOpenId}"/>
-                            <GridViewColumn Width="130" Header="课程名" DisplayMemberBinding="{Binding name}"/>
-                            <GridViewColumn Width="80" Header="教师名" DisplayMemberBinding="{Binding tName}"/>
+                            <!-- <GridViewColumn Width="150" Header="ID" DisplayMemberBinding="{Binding courseOpenId}"/> -->
+                            <GridViewColumn Width="200" Header="课程名" DisplayMemberBinding="{Binding name}"/>
+                            <GridViewColumn Width="140" Header="教师名" DisplayMemberBinding="{Binding tName}"/>
                             <GridViewColumn Width="80" Header="进度" DisplayMemberBinding="{Binding percent}"/>
                         </GridView>
                     </ListView.View>
@@ -33,11 +27,9 @@
                     <ListView Name="studyListView" Height="300" ItemsSource="" Margin="20">
                         <ListView.View>
                             <GridView>
-                                <!-- <GridViewColumn Width="150" Header="courseOpenId" DisplayMemberBinding="{Binding moduleId}"/> -->
-                                <!-- <GridViewColumn Width="150" Header="openClassId" DisplayMemberBinding="{Binding openClassId}"/> -->
                                 <GridViewColumn Width="300" Header="目录名" DisplayMemberBinding="{Binding name}"/>
                                 <GridViewColumn Width="80" Header="进度" DisplayMemberBinding="{Binding percent}"/>
-                                <GridViewColumn Width="80" Header="当前状态" DisplayMemberBinding="{Binding status}"/>
+                                <!-- <GridViewColumn Width="80" Header="当前状态" DisplayMemberBinding="{Binding status}"/> -->
                             </GridView>
                         </ListView.View>
                     </ListView>

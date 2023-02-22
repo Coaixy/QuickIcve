@@ -11,18 +11,6 @@ namespace QuickIcve
 {
     public class RequestHelper
     {
-        //设置 头像
-        public static void setTopImg(Image tx,string url)
-        {
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource =
-                new Uri(url,
-                    UriKind.Absolute);
-            bitmapImage.EndInit();
-            tx.Source = bitmapImage;
-        }
-
         public static string Post(string url, Dictionary<string, string> dic,string test_data = "",bool text = false)
         {
             string result = "";
@@ -56,8 +44,6 @@ namespace QuickIcve
             {
                 sb.Append(test_data);
             }
-            
-            // MessageBox.Show(sb.ToString());
             byte[] data = Encoding.UTF8.GetBytes(sb.ToString());
             req.ContentLength = data.Length;
             Stream reqStream = req.GetRequestStream();
