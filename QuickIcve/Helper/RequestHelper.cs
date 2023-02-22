@@ -51,6 +51,12 @@ namespace QuickIcve
             reqStream.Flush();
             reqStream.Close();
 
+            //
+            // if (url.Contains("CellLog"))
+            // {
+            //     MessageBox.Show(sb.ToString());
+            // }
+            //
             HttpWebResponse resp = (HttpWebResponse)req.GetResponse();
             Stream stream = resp.GetResponseStream();
             using (StreamReader reader = new StreamReader(stream,Encoding.UTF8))

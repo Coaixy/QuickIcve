@@ -95,7 +95,7 @@ namespace QuickIcve
             return text;
         }
         
-        public static JObject sendData(string cookie, string courseOpenId, string openClassId,string cellId,string token
+        public static string sendData(string cookie, string courseOpenId, string openClassId,string cellId,string token
         ,string studyNewlyTime,string studyNewlyPicNum,string cellLogId)
         {
             Dictionary<string, string> data = new Dictionary<string, string>
@@ -106,12 +106,13 @@ namespace QuickIcve
                 { "cellId", cellId },
                 { "cellLogId", cellLogId },
                 { "studyNewlyTime", studyNewlyTime },
+                { "studyNewlyPicNum", studyNewlyPicNum },
                 { "token", token },
+                { "picNum", studyNewlyPicNum },
                 { "flag", "s" }
             };
             var text = RequestHelper.Post("https://zjy2.icve.com.cn/api/common/Directory/stuProcessCellLog", data);
-            var jsonData = JObject.Parse(text);
-            return jsonData;
+            return text;
         }
     }
 }
