@@ -221,6 +221,8 @@ namespace QuickIcve
                 {
                     TabControl.SelectedIndex = 0;
                     MessageBox.Show("完成任务");
+                    nowCell.Content = "";
+                    RefreshProgress();
                 });
             });
             study.Start();
@@ -234,27 +236,10 @@ namespace QuickIcve
             
             CourseViewItems.Clear();
             StudyViewItems.Clear();
-            
+
+            courseListView.ItemsSource = CourseViewItems;
+            studyListView.ItemsSource = StudyViewItems;
             initCourse();
-            
-            var studyList = InfoHelper.studyList(cookie, courseInfo.courseOpenId, courseInfo.openClassId)?["progress"]?["moduleList"];
-            foreach (var studyItem in studyList)
-            {
-                if (Convert.ToInt32(studyItem["percent"]) < 100)
-                {
-                    var temp = new StudyInfo()
-                    {
-                        courseOpenId = SelectedCourse.courseOpenId,
-                        moduleId = studyItem["id"]?.ToString(),
-                        name  = studyItem["name"]?.ToString(),
-                        openClassId = SelectedCourse.openClassId,
-                        percent = Convert.ToInt32(studyItem["percent"]),
-                        status = "未开始"
-                    };
-                    StudyViewItems.Add(temp);
-                }
-            }
-            
         }
         private void AddCellItems(string courseOpenId,string openClassId,string cellId,string moduleId)
         {
