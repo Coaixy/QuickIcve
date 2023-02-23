@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("QuickIcve")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Made By Coaixy")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("QuickIcve")]

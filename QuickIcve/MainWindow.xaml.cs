@@ -202,7 +202,8 @@ namespace QuickIcve
                     }
                     
                 }
-                
+                TabControl.SelectedIndex = 0;
+                MessageBox.Show("完成任务");
             });
             study.Start();
         }
