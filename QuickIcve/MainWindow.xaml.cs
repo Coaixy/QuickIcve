@@ -63,6 +63,7 @@ namespace QuickIcve
 
         private void listDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            
             SelectedCourse = (CourseInfo)courseListView.SelectedItem;
             if (SelectedCourse.percent == 100)
             {
@@ -95,6 +96,8 @@ namespace QuickIcve
         {
             TabControl.SelectedIndex = 2;
             var studyInfos = StudyViewItems;
+            var nowCellViewItems =  new ObservableCollection<cellInfo>();
+            cellListView.ItemsSource = nowCellViewItems;
             Task study = new Task(() =>
             {
                 //获取所有Cell的信息
@@ -128,6 +131,13 @@ namespace QuickIcve
                     nowCell.Content = "获取完毕";
                     
                 });
+                foreach (var cellInfo in CellViewItems)
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        nowCellViewItems.Add(cellInfo);
+                    });
+                }
                 //刷课
                 foreach (var cellInfo in CellViewItems)
                 {
@@ -200,10 +210,18 @@ namespace QuickIcve
                             });
                         }
                     }
-                    
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        nowCellViewItems.Remove(cellInfo);
+                        CellProgressBar.Value = 0;
+                        cellListView.SelectedIndex = 0;
+                    });
                 }
-                TabControl.SelectedIndex = 0;
-                MessageBox.Show("完成任务");
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    TabControl.SelectedIndex = 0;
+                    MessageBox.Show("完成任务");
+                });
             });
             study.Start();
         }

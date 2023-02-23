@@ -44,7 +44,7 @@
                                     <GridViewColumn Width="300" Header="节点名" DisplayMemberBinding="{Binding cellName}"/>
                                     <!-- <GridViewColumn Width="80" Header="Id" DisplayMemberBinding="{Binding cellId}"/> -->
                                     <GridViewColumn Width="80" Header="类型" DisplayMemberBinding="{Binding categoryName}"/>
-                                    <GridViewColumn Width="80" Header="状态" DisplayMemberBinding="{Binding status}"/>
+                                    <!-- <GridViewColumn Width="80" Header="状态" DisplayMemberBinding="{Binding status}"/> -->
                                 </GridView>
                             </ListView.View>
                         </ListView>
