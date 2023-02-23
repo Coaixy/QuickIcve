@@ -135,8 +135,8 @@ namespace QuickIcve
                     {
                         nowCell.Content = cellInfo.cellName;
                     });
-                    var audioVideoLonglength = Convert.ToInt32(cellInfo.audioVideoLong);
-                    var newlyTime = Convert.ToInt32(cellInfo.stuStudyNewlyTime);
+                    float audioVideoLonglength = Convert.ToSingle(cellInfo.audioVideoLong);
+                    var newlyTime = Convert.ToSingle(cellInfo.stuStudyNewlyTime);
                     var newlyPicCount = Convert.ToInt32(cellInfo.stuStudyNewlyPicCount);
                     var pageCount = Convert.ToInt32(cellInfo.pageCount);
 
